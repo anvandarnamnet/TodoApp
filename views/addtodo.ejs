@@ -1,0 +1,11 @@
+<% include common/header.ejs %>
+
+	<div class="container">
+		<h1>Add a todo</h1>
+		<form action="/addtodo" method="post">
+      <h4>Description</h4> <input name="desc" type="text" class="form-control" placeholder="Description" required autofocus />  <br />
+      <h4>Date</h4> <input name="date" type="date" class="form-control" placeholder="<%= Date.now() %>" required />  <br />
+      <input type="submit" value="Send" class="btn btn-success" />
+    </form>
+	</div>
+<% include common/footer.ejs %>
