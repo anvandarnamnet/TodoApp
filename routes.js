@@ -19,10 +19,7 @@ router.use(function(req,res,next){
 })
 
 router.get("/", function(req, res, next){
-
-
   var query = todo.find({user: user});
-
   query.exec(function(err, todos){
       if(err){
         return console.log(err);
@@ -30,8 +27,6 @@ router.get("/", function(req, res, next){
 
       res.render("index", {quot: todos});
   });
-
-
 });
 
 
@@ -43,7 +38,6 @@ router.post("/addtodo", function(req, res, next){
 
   var description = req.body.desc;
   var date = req.body.date;
-
 
   var newTodo = new todo({
     description: description,
@@ -65,6 +59,8 @@ router.post("/addtodo", function(req, res, next){
   res.redirect("/");
 });
 
+
+
 router.get("/delete-todo/:id", function(req, res, next){
   todo.remove({_id: req.params.id}, function(err){
     console.log("sucess!");
@@ -72,6 +68,8 @@ router.get("/delete-todo/:id", function(req, res, next){
   console.log(req.params.id)
     res.redirect("/");
 });
+
+//osakr
 
 router.get("/mark-done/:id", function(req, res, next){
   var query = todo.find({_id: req.params.id});
@@ -89,11 +87,8 @@ router.get("/mark-done/:id", function(req, res, next){
         console.log('success')
         res.redirect("/");
       }
-
     });
-
 });
-
 });
 
 function ensureAuthenticated(req, res, next) {
