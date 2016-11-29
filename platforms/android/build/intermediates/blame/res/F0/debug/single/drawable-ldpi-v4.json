@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\build\\intermediates\\res\\merged\\F0\\debug\\drawable-ldpi-v4\\background.png",
+        "source": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\src\\main\\res\\drawable-ldpi\\background.png"
+    },
+    {
+        "merged": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\build\\intermediates\\res\\merged\\F0\\debug\\drawable-ldpi-v4\\logo.png",
+        "source": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\src\\main\\res\\drawable-ldpi\\logo.png"
+    },
+    {
+        "merged": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\build\\intermediates\\res\\merged\\F0\\debug\\drawable-ldpi-v4\\icon.png",
+        "source": "C:\\Users\\Oskar\\Documents\\native\\Todoapp\\platforms\\android\\src\\main\\res\\drawable-ldpi\\icon.png"
+    }
+]
