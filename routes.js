@@ -11,7 +11,16 @@ var monthNames = [
 ];
 
 
+router.use(function(req,res,next){
+  res.locals.currentUser = req.user;
+  res.locals.errors = req.flash("error")
+  res.locals.infos = req.flash("info")
+  next()
+})
+
 router.get("/", function(req, res, next){
+
+
   var query = todo.find({user: user});
 
   query.exec(function(err, todos){
@@ -26,7 +35,7 @@ router.get("/", function(req, res, next){
 });
 
 
-router.get("/addtodo", function(req, res, next){
+router.get("/addtodo", ensureAuthenticated, function(req, res, next){
     res.render("addtodo");
 });
 
@@ -85,12 +94,17 @@ router.get("/mark-done/:id", function(req, res, next){
 
 });
 
-
-
-
-
-
 });
+
+function ensureAuthenticated(req, res, next) {
+  if(req.isAuthenticated()){
+    next();
+  } else{
+    req.flash("info", "well, you suck");
+    res.redirect("/login")
+  }
+}
+
 
 
 module.exports = router;
