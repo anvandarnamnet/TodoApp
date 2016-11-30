@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var todo = require("./todos");
-var user = "oskar";
-
+var userr = "oskar";
+var User = require(__dirname + "/models/user")
+var passport = require("passport");
 var monthNames = [
   "January", "February", "March",
   "April", "May", "June", "July",
@@ -18,8 +19,47 @@ router.use(function(req,res,next){
   next()
 })
 
-router.get("/", function(req, res, next){
-  var query = todo.find({user: user});
+router.get("/signup", function(req, res, next){
+  res.render("signup");
+});
+
+router.post("/signup", function(req,res,next){
+  var username = req.body.username;
+  var password = req.body.password;
+  User.findOne({username:username}, function(err, user){
+    if(err){
+      return next(err)
+    }
+    if(user){
+      req.flash("error", "User already exists");
+      return res.redirect("/signup")
+    }
+
+    var newUser = new User({
+      username:username,
+      password:password
+    })
+    newUser.save(next)
+  })
+}, passport.authenticate("login", {
+  successRedirect:"/",
+  failureRedirect: "/signup",
+  failureFlash: true
+}));
+
+router.get("/login", function(req, res, next){
+  res.render("login");
+});
+
+router.post("/login", passport.authenticate("login", {
+  successRedirect:"/",
+  failureRedirect: "/signup",
+  failureFlash: true
+}))
+
+router.get("/", ensureAuthenticated, function(req, res, next){
+  var thisUser = req.user.username;
+  var query = todo.find({user: thisUser});
   query.exec(function(err, todos){
       if(err){
         return console.log(err);
@@ -29,20 +69,25 @@ router.get("/", function(req, res, next){
   });
 });
 
+router.get("/logout", function(req,res){
+  req.logout();
+  res.redirect("/");
+})
+
 
 router.get("/addtodo", ensureAuthenticated, function(req, res, next){
     res.render("addtodo");
 });
 
-router.post("/addtodo", function(req, res, next){
+router.post("/addtodo", ensureAuthenticated, function(req, res, next){
 
   var description = req.body.desc;
   var date = req.body.date;
-
+  var thisUser = req.user.username
   var newTodo = new todo({
     description: description,
     date: date,
-    user: "oskar"
+    user: thisUser
   });
 
   newTodo.save(function(err){
@@ -61,7 +106,7 @@ router.post("/addtodo", function(req, res, next){
 
 
 
-router.get("/delete-todo/:id", function(req, res, next){
+router.get("/delete-todo/:id", ensureAuthenticated, function(req, res, next){
   todo.remove({_id: req.params.id}, function(err){
     console.log("sucess!");
   });
@@ -71,7 +116,7 @@ router.get("/delete-todo/:id", function(req, res, next){
 
 //osakr
 
-router.get("/mark-done/:id", function(req, res, next){
+router.get("/mark-done/:id", ensureAuthenticated, function(req, res, next){
   var query = todo.find({_id: req.params.id});
   var date;
   var description;
@@ -90,6 +135,8 @@ router.get("/mark-done/:id", function(req, res, next){
     });
 });
 });
+
+
 
 function ensureAuthenticated(req, res, next) {
   if(req.isAuthenticated()){

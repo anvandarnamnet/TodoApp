@@ -1,0 +1,12 @@
+<% include common/header %>
+<div class="container">
+  <h1>Log in!</h1> <a href="/signup">sign up!</a>
+  <form action="/login" method="post">
+    <input name="username" type="text" class="formControl" placeholder="Username" required autofocus/>
+    <input name="password" type="password" class="formControl" placeholder="Password" required  />
+    <input type="submit" value="log in" class="btn btn-primary btn-block" />
+  </form>
+</div>
+
+
+<% include common/footer %>

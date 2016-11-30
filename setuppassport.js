@@ -15,16 +15,22 @@ module.exports = function(){
 
 var localStrategy = require("passport-local").Strategy;
 passport.use("login", new localStrategy(function(username, password,done){
+
   User.findOne({username: username}, function(err, user){
+
     if(err){
+      console.log(err);
       return done(err);
     }
 
     if(!user){
+      console.log("oasiudh");
       return done(null, false, {message: "No user has that username!"})
     }
     user.checkPassword(password, function(err, isMatch){
+
       if(err){
+        console.log(err);
         return done(err);
       }
       if(isMatch){

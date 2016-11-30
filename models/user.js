@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var SALT_FACTOR = 10;
 
 var userSchema = mongoose.Schema({
-  userName: {type:String, required: true, unique: true},
+  username: {type:String, required: true, unique: true},
   password: {type:String, required:true},
   createdAt: {type: Date, default:Date.now}
 });
@@ -38,4 +38,9 @@ userSchema.methods.checkPassword = function(guess, done){
   });
 }
 
+userSchema.methods.name = function(){
+  return this.username;
+}
+
 var User = mongoose.model("User", userSchema);
+module.exports = User;
