@@ -10,6 +10,7 @@ var setUpPassport = require(__dirname + "/setuppassport");
 var routes = require("./routes");
 var app = express();
 var passport = require("passport")
+var api = require("./api")
 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://oskar:oskar@ds041432.mlab.com:41432/todolistapps");
@@ -29,7 +30,8 @@ app.use(session({
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(routes);
+app.use("/", routes);
+app.use("/api",api);
 
 app.listen(app.get("port"), function(){
     console.log("Lets go server!");
